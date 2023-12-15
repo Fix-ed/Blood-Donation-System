@@ -1,26 +1,45 @@
+
+/*  #faf8f9 original color */
+
+
+
 .admin-header {
-    background-color: #f8f9fa;
+    background-color: #050003;
     padding: 20px;
     display: flex;
     justify-content: space-around;
+    border-radius: 2rem;
 }
 
 .admin-link {
-    color: #333;
+    color: #fff;
     text-decoration: none;
     font-size: 26px;
     font-weight: 600;
-    
+    background-color: transparent;
+    margin-left: 17px;
+    transition: all 1s;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .admin-link:hover {
-    color: #007bff;
+    /* color: #4cb041; */
+    font-size: 30px;
 }
 
 .admin-link:last-child {
-    color: #000000;
+    color: #fff;
 }
 
 .admin-link:hover:last-child {
     color: #ff0000;
 }
+/* .admin-link:not(:last-child)::after{
+    content:""; 
+    border:1px solid #e2e2e2;
+    border-width: 1px 1px 0 0;
+    position:absolute; 
+    right:-3px; 
+    top:0; 
+    height:100%;
+  } */

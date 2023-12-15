@@ -11,9 +11,9 @@ export const NavBarRecipient = () => {
         <Link className="admin-link" to="/recipient/search_history">
           Search History
         </Link>
-        <Link className="admin-link" to="/recipient/edit_system_user">
+        {/* <Link className="admin-link" to="/recipient/edit_system_user">
           Edit information
-        </Link>
+        </Link> */}
         <Link className="admin-link" to="/recipient/request_blood">
           Request Blood
         </Link>

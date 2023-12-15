@@ -28,10 +28,10 @@ export const Begin_Blood_Drive = () => {
   return (
     <>
       <NavBar />
-      <h1>Initiate Blood Drive</h1>
+      <h1>Start a Blood Drive</h1>
       <div className="container_blood_drive">
         <form className="blood_drive">
-          <label type="date">Date</label>
+          <label type="date">Date:</label>
           <input
             type="date"
             id="date"
@@ -42,7 +42,7 @@ export const Begin_Blood_Drive = () => {
               setDate(e.target.value);
             }}
           ></input>
-          <label type="location">Location</label>
+          <label type="location">Location:</label>
           <input
             type="text"
             id="location"

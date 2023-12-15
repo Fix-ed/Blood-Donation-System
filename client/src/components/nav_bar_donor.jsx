@@ -9,11 +9,11 @@ export const NavBarDonor = () => {
           Home
         </Link>
         <Link className="admin-link" to="/donor/search_history">
-          Search History
+          History
         </Link>
-        <Link className="admin-link" to="/donor/edit_system_user">
+        {/* <Link className="admin-link" to="/donor/edit_system_user">
           Edit information
-        </Link>
+        </Link> */}
         <Link className="admin-link" to="/donor/donate">
           Donate Blood
         </Link>

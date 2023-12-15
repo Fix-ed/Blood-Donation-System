@@ -9,14 +9,14 @@ export const NavBar = () => {
           Home
         </Link>
         <Link className="admin-link" to="/admin/add_remove_edit">
-          Add/Remove/Edit Donor/Recipient
+          Modify Users
         </Link>
         <Link className="admin-link" to="/admin/search_history">
           Search History
         </Link>
-        <Link className="admin-link" to="/admin/edit_system_user">
+        {/* <Link className="admin-link" to="/admin/edit_system_user">
           Edit system user information
-        </Link>
+        </Link> */}
         <Link className="admin-link" to="/admin/blood_requests">
           Blood requests
         </Link>

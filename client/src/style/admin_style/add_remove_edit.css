@@ -9,7 +9,7 @@ h1 {
 .container {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 20rem;
+  margin-bottom: 15rem;
 }
 
 .container-2 {
@@ -25,8 +25,11 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   background-color: black;
+  border-radius: 2rem;
   color: white;
   transition: background-color 0.3s ease;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
 }
 
 .btn-2 {
@@ -38,7 +41,9 @@ h1 {
   margin-right: 10rem;
   cursor: pointer;
   background-color: black;
+  border-radius: 2rem;
   color: white;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   transition: background-color 0.3s ease;
 }
 
@@ -59,6 +64,7 @@ h1 {
   margin: 10px 0 5px 0;
   color: #333;
   font-size: 18px; /* Added font size */
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .container-3 input[type="text"],
