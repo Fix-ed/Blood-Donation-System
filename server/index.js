@@ -9,10 +9,10 @@ app.use(cors());
 
 const db = sql.createConnection({
   host: "localhost",
-  user: "sqluser",
+  user: "Omar",
   port: 3306,
-  password: "123",
-  database: "ProjectBlood",
+  password: "12345678",
+  database: "BloodDonationSystem",
 });
 
 db.connect(function (err) {
@@ -32,7 +32,7 @@ app.listen(port, () => {
 app.use("/login", (req, res) => {
   const { email, password } = req.body;
   db.query(
-    "SELECT * FROM admin WHERE email = ? AND password = ?",
+    "SELECT * FROM admin WHERE Email = ? AND Password = ?",
     [email, password],
     (err, result) => {
       if (err) {
