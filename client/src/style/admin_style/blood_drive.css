@@ -1,0 +1,33 @@
+.blood_drive {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.blood_drive label {
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+}
+
+.blood_drive input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-submit-3 {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 2rem;
+}
+
+.btn-submit-3:hover {
+    background-color: darkslategray;
+}

@@ -1,0 +1,32 @@
+.form-donate {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.form-donate label {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.form-donate input[type="text"] {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-donate input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #009879;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-donate input[type="submit"]:hover {
+    background-color: #007f67;
+}

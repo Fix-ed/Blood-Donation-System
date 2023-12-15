@@ -1,0 +1,128 @@
+h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+  font-size: 5rem;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rem;
+}
+
+.container-2 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10rem;
+}
+
+.btn-1 {
+  padding: 30px 100px;
+  font-size: 32px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-2 {
+  padding: 30px 100px;
+  font-size: 32px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.container-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.container-3 div {
+  display: flex;
+  flex-direction: column;
+  width: 70%; /* Increased from 50% to 70% */
+}
+
+.container-3 label {
+  margin: 10px 0 5px 0;
+  color: #333;
+  font-size: 18px; /* Added font size */
+}
+
+.container-3 input[type="text"],
+.container-3 input[type="date"],
+.container-3 input[type="email"],
+.container-3 input[type="password"] {
+  padding: 15px; /* Increased from 10px to 15px */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px; /* Added font size */
+}
+
+.container-3 input[type="submit"] {
+  margin-top: 20px;
+  padding: 15px 30px; /* Increased from 10px 20px to 15px 30px */
+  border: none;
+  width: 12rem; /* Increased from 10rem to 12rem */
+  margin-bottom: 5rem;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18px; /* Added font size */
+}
+
+.container-3 input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.form-add {
+  display: none;
+}
+
+.form-remove {
+  display: none;
+}
+
+.form-edit {
+  display: none;
+}
+
+.btn-submit {
+  display: none;
+}
+
+.styled-table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.styled-table th {
+  background-color: #f3f3f3;
+  text-align: left;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

@@ -1,0 +1,26 @@
+.admin-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.admin-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 26px;
+    font-weight: 600;
+    
+}
+
+.admin-link:hover {
+    color: #007bff;
+}
+
+.admin-link:last-child {
+    color: #000000;
+}
+
+.admin-link:hover:last-child {
+    color: #ff0000;
+}

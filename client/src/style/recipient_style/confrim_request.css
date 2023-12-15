@@ -1,0 +1,32 @@
+.confirm-request-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+
+.confirm-request-container h1,
+.confirm-request-container p {
+    color: #333;
+}
+
+.confirm-request-container h1 {
+    margin-bottom: 20px;
+}
+
+.confirm-request-container p {
+    margin-bottom: 30px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
