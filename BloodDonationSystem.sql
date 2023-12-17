@@ -2,209 +2,170 @@
 create database BloodDonationSystem;
 USE BloodDonationSystem;
 -- @block
--- Create the Donors table
-CREATE TABLE Admin (
-    AdminID INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Email VARCHAR(100),
-    Password VARCHAR(250)
+CREATE TABLE admin (
+    Admin_ID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL
 );
--- @block
-CREATE table Donors (
-    DonorID INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Address VARCHAR(255),
-    ContactNumber VARCHAR(15),
-    Email VARCHAR(100),
-    Age INT,
-    Weight DECIMAL(5, 2),
-    DiseaseFree VARCHAR(3) CHECK (DiseaseFree IN ('Yes', 'No')),
-    CHECK (
-        Age >= 17
-        AND Weight >= 114
-    )
+CREATE TABLE donors (
+    Donor_ID INT PRIMARY KEY AUTO_INCREMENT,
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    address TEXT,
+    mass DECIMAL(5, 2),
+    bdate DATE,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    blood_type VARCHAR(5),
+    Drive_ID INT,
+    donation_count INT,
+    donation_date DATE,
+    incident TEXT
 );
--- @block
--- Create the Recipients table
-CREATE TABLE Recipients (
-    RecipientID INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Address VARCHAR(255),
-    ContactNumber VARCHAR(15),
-    Email VARCHAR(100)
+CREATE TABLE recipients (
+    Recipient_ID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    Address TEXT,
+    mass DECIMAL(5, 2),
+    bdate DATE,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    blood_type VARCHAR(5),
+    amount_of_blood INT,
+    price DECIMAL(10, 2),
+    order_status VARCHAR(50) DEFAULT 'pending'
 );
--- @block
--- Create the BloodTypes table
-CREATE TABLE BloodTypes (
-    BloodTypeID INT PRIMARY KEY,
-    BloodTypeName VARCHAR(50)
+CREATE TABLE donor_medical_history (
+    Donor_ID INT,
+    MedicalHistory TEXT,
+    FOREIGN KEY (Donor_ID) REFERENCES donors(Donor_ID)
 );
--- @block
--- Create the MedicalHistory table
-CREATE TABLE MedicalHistory (
-    HistoryID INT PRIMARY KEY,
-    DonorID INT,
-    MedicalDescription TEXT,
-    Date DATE,
-    FOREIGN KEY (DonorID) REFERENCES Donors(DonorID)
+CREATE TABLE blood_collection_drive (
+    Drive_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Drive_date DATE
 );
--- @block
--- Create the BloodDrives table
-CREATE TABLE BloodDrives (
-    DriveID INT PRIMARY KEY,
-    Location VARCHAR(255),
-    ScheduledDate DATE
+CREATE TABLE location_collection_drive (
+    Drive_ID INT,
+    location_drive TEXT,
+    FOREIGN KEY (Drive_ID) REFERENCES blood_collection_drive(Drive_ID)
 );
--- @block
--- Create the StoredBlood table
-CREATE TABLE StoredBlood (
-    BloodBagID INT PRIMARY KEY,
-    BloodTypeID INT,
-    DonorID INT,
-    CollectionDate DATE,
-    ExpiryDate DATE,
-    FOREIGN KEY (BloodTypeID) REFERENCES BloodTypes(BloodTypeID),
-    FOREIGN KEY (DonorID) REFERENCES Donors(DonorID)
+CREATE TABLE blood (
+    Donation_ID INT PRIMARY KEY AUTO_INCREMENT,
+    blood_type VARCHAR(5),
+    expiry_date DATE,
+    quantity INT,
+    Drive_ID INT,
+    FOREIGN KEY (Drive_ID) REFERENCES blood_collection_drive(Drive_ID)
 );
+CREATE VIEW donor_info AS
+SELECT d.*,
+    dmh.MedicalHistory
+FROM donors d
+    LEFT JOIN donor_medical_history dmh ON d.Donor_ID = dmh.Donor_ID;
 -- @block
--- Create the Incidents table
-CREATE TABLE Incidents (
-    IncidentID INT PRIMARY KEY,
-    Description TEXT,
-    Date DATE
+CREATE TABLE recipient_medical_history (
+    Recipient_ID INT,
+    MedicalHistory TEXT,
+    FOREIGN KEY (Recipient_ID) REFERENCES recipients(Recipient_ID)
 );
+CREATE VIEW recipient_info AS
+SELECT r.*,
+    rmh.MedicalHistory
+FROM recipients r
+    LEFT JOIN recipient_medical_history rmh ON r.Recipient_ID = rmh.Recipient_ID;
 -- @block
--- Create the Reports table
-CREATE TABLE Reports (
-    ReportID INT PRIMARY KEY,
-    Description TEXT,
-    Date DATE
-);
--- @block
-INSERT INTO admin (
-        AdminID,
-        FirstName,
-        LastName,
-        Email,
-        Password
-    )
-VALUES (
-        1,
-        'John',
-        'Ahmed',
-        '1234@gmail.com',
-        "1234"
-    );
--- @block
--- examples data COMMENT
--- Switch to the BloodDonationSystem database
-USE BloodDonationSystem;
--- Insert sample data into the Donors table
-INSERT INTO Donors (
-        DonorID,
-        FirstName,
-        LastName,
-        Address,
-        ContactNumber,
-        Email,
-        Age,
-        Weight,
-        DiseaseFree
-    )
-VALUES (
-        1,
-        'John',
-        'Doe',
-        '123 Main St',
-        '123-456-7890',
-        'john.doe@example.com',
-        25,
-        150.5,
-        'Yes'
-    ),
+-- Inserting admins
+INSERT INTO admin (FirstName, LastName, Email, Password)
+VALUES ('John', 'Doe', 'john.doe@email.com', 'pass123'),
     (
-        2,
         'Jane',
         'Smith',
-        '456 Oak Ave',
-        '987-654-3210',
-        'jane.smith@example.com',
-        30,
-        130.2,
-        'No'
+        'jane.smith@email.com',
+        'pass456'
+    );
+-- Inserting donors
+INSERT INTO donors (
+        fname,
+        lname,
+        address,
+        mass,
+        bdate,
+        email,
+        password,
+        blood_type,
+        Drive_ID,
+        donation_count,
+        donation_date,
+        incident
+    )
+VALUES (
+        'Alice',
+        'Johnson',
+        '123 Main St',
+        65.5,
+        '1990-01-01',
+        'alice.johnson@email.com',
+        'pass789',
+        'A+',
+        1,
+        0,
+        '2023-01-01',
+        'None'
     ),
     (
-        3,
         'Bob',
-        'Johnson',
-        '789 Pine Rd',
-        '111-222-3333',
-        'bob.johnson@example.com',
-        20,
-        140.0,
-        'Yes'
+        'Brown',
+        '456 Elm St',
+        70.0,
+        '1992-02-02',
+        'bob.brown@email.com',
+        'pass012',
+        'O-',
+        2,
+        0,
+        '2023-01-02',
+        'None'
     );
--- Insert sample data into the Recipients table
-INSERT INTO Recipients (
-        RecipientID,
+-- Inserting recipients
+INSERT INTO recipients (
         FirstName,
         LastName,
         Address,
-        ContactNumber,
-        Email
+        mass,
+        bdate,
+        Email,
+        Password,
+        blood_type,
+        amount_of_blood,
+        price,
+        order_status
     )
 VALUES (
-        1,
-        'Alice',
-        'Williams',
-        '321 Elm Blvd',
-        '555-123-4567',
-        'alice.williams@example.com'
+        'Charlie',
+        'Davis',
+        '789 Oak St',
+        75.0,
+        '1988-03-03',
+        'charlie.davis@email.com',
+        'pass345',
+        'B+',
+        2,
+        200.00,
+        'pending'
     ),
     (
-        2,
-        'Charlie',
-        'Brown',
-        '654 Cedar Ln',
-        '999-888-7777',
-        'charlie.brown@example.com'
+        'Diana',
+        'Evans',
+        '101 Pine St',
+        68.0,
+        '1991-04-04',
+        'diana.evans@email.com',
+        'pass678',
+        'AB-',
+        3,
+        300.00,
+        'pending'
     );
--- Insert sample data into the BloodTypes table
-INSERT INTO BloodTypes (BloodTypeID, BloodTypeName)
-VALUES (1, 'A+'),
-    (2, 'B-'),
-    (3, 'O+');
--- Insert sample data into the MedicalHistory table
-INSERT INTO MedicalHistory (HistoryID, DonorID, MedicalDescription, Date)
-VALUES (1, 1, 'No major health issues', '2023-01-15'),
-    (2, 2, 'Allergies', '2023-02-20'),
-    (3, 3, 'Regular checkup', '2023-03-10');
--- Insert sample data into the BloodDrives table
-INSERT INTO BloodDrives (DriveID, Location, ScheduledDate)
-VALUES (1, 'Community Center', '2023-04-05'),
-    (2, 'Hospital Parking Lot', '2023-05-15');
--- Insert sample data into the StoredBlood table
-INSERT INTO StoredBlood (
-        BloodBagID,
-        BloodTypeID,
-        DonorID,
-        CollectionDate,
-        ExpiryDate
-    )
-VALUES (1, 1, 1, '2023-04-01', '2023-05-01'),
-    (2, 2, 2, '2023-04-10', '2023-05-10');
--- Insert sample data into the Incidents table
-INSERT INTO Incidents (IncidentID, Description, Date)
-VALUES (1, 'Temperature control failure', '2023-04-02'),
-    (
-        2,
-        'Power outage during collection',
-        '2023-04-12'
-    );
--- Insert sample data into the Reports table
-INSERT INTO Reports (ReportID, Description, Date)
-VALUES (1, 'Monthly usage report', '2023-05-01'),
-    (2, 'Incident summary', '2023-05-05');

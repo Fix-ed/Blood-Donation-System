@@ -42,7 +42,7 @@ app.use("/login", (req, res) => {
         res.send({ role: "admin", user: result[0].Admin_ID });
       } else {
         db.query(
-          "SELECT * FROM donor WHERE email = ? AND password = ?",
+          "SELECT * FROM donors WHERE Email = ? AND Password = ?",
           [email, password],
           (err, result) => {
             if (err) {
@@ -57,7 +57,7 @@ app.use("/login", (req, res) => {
               });
             } else {
               db.query(
-                "SELECT * FROM recipient WHERE email = ? AND password = ?",
+                "SELECT * FROM recipients WHERE Email = ? AND Password = ?",
                 [email, password],
                 (err, result) => {
                   if (err) {
@@ -97,56 +97,48 @@ app.use("/add_recipient", (req, res) => {
     amount,
     MedicalHistory,
   } = req.body;
-  console.log(req.body);
-  // find the last inserted id and increment by 1
-  let id = 0;
+
   db.query(
-    "SELECT Recipient_ID FROM recipient ORDER BY Recipient_ID DESC LIMIT 1",
+    "INSERT INTO recipients (FirstName, LastName, Address, mass, bdate, Email, Password, blood_type, amount_of_blood, price) VALUES (?,?,?,?,?,?,?,?,?,?)",
+    [
+      fname,
+      lname,
+      address,
+      mass,
+      bdate,
+      email,
+      password,
+      blood_type,
+      amount,
+      amount * 0.1,
+    ],
     (err, result) => {
-      console.log(result);
       if (err) {
-        console.log(err);
+        console.error(err);
+        res.send("Error");
       } else {
-        if (result.length === 0) {
-          id = 1;
-        } else {
-          id = result[0].Recipient_ID + 1;
-        }
-        db.query(
-          "INSERT INTO recipient (Recipient_ID, fname, lname, address, mass, bdate, email, password, blood_type, amount_of_blood, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-          [
-            id,
-            fname,
-            lname,
-            address,
-            mass,
-            bdate,
-            email,
-            password,
-            blood_type,
-            amount,
-            amount * 0.1,
-          ],
-          (err, result) => {
-            if (err) {
-              console.log(err);
-              res.send("Error");
-            } else {
-              db.query(
-                "INSERT INTO recipient_medical_history (Recipient_ID, MEDICAL_History) VALUES (?,?)",
-                [id, MedicalHistory],
-                (err, result) => {
-                  if (err) {
-                    console.log(err);
-                    res.send("Error");
-                  } else {
-                    res.send(200);
-                  }
+        // Get the last inserted id
+        db.query("SELECT LAST_INSERT_ID() AS id", (err, result) => {
+          if (err) {
+            console.error(err);
+            res.send("Error");
+          } else {
+            const recipientId = result[0].id;
+
+            db.query(
+              "INSERT INTO recipient_medical_history (Recipient_ID, MEDICAL_History) VALUES (?,?)",
+              [recipientId, MedicalHistory],
+              (err, result) => {
+                if (err) {
+                  console.error(err);
+                  res.send("Error");
+                } else {
+                  res.send("Recipient added successfully");
                 }
-              );
-            }
+              }
+            );
           }
-        );
+        });
       }
     }
   );
@@ -165,60 +157,51 @@ app.use("/add_donor", (req, res) => {
     blood_type,
     MedicalHistory,
   } = req.body;
-  console.log(req.body);
-  console.log(driveID);
-  // find the last inserted id and increment by 1
-  let id = 0;
   let data = new Date();
+
   db.query(
-    "SELECT Donor_ID FROM donor ORDER BY Donor_ID DESC LIMIT 1",
+    "INSERT INTO donors (fname, Drive_ID, lname, address, mass, bdate, email, password, blood_type, donation_count, donation_date, incident) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    [
+      fname,
+      driveID,
+      lname,
+      address,
+      mass,
+      bdate,
+      email,
+      password,
+      blood_type,
+      0,
+      data,
+      "None",
+    ],
     (err, result) => {
-      console.log(result);
       if (err) {
-        console.log(err);
+        console.error(err);
+        res.send("Error");
       } else {
-        if (result.length === 0) {
-          id = 1;
-        } else {
-          id = result[0].Donor_ID + 1;
-        }
-        db.query(
-          "INSERT INTO donor (Donor_ID, fname, Drive_ID, lname, address, mass, bdate, email, password, blood_type, donation_count, donation_date, incident) VALUES (?,?,?,?,?,?,?,?,?,?, ?, ?, ?)",
-          [
-            id,
-            fname,
-            driveID,
-            lname,
-            address,
-            mass,
-            bdate,
-            email,
-            password,
-            blood_type,
-            0,
-            data,
-            "None",
-          ],
-          (err, result) => {
-            if (err) {
-              console.log(err);
-              res.send("Error");
-            } else {
-              db.query(
-                "INSERT INTO donor_medical_history (Donor_ID, MedicalHistory) VALUES (?,?)",
-                [id, MedicalHistory],
-                (err, result) => {
-                  if (err) {
-                    console.log(err);
-                    res.send("Error");
-                  } else {
-                    res.send(200);
-                  }
+        // Get the last inserted donor id
+        db.query("SELECT LAST_INSERT_ID() AS id", (err, result) => {
+          if (err) {
+            console.error(err);
+            res.send("Error");
+          } else {
+            const donorId = result[0].id;
+
+            db.query(
+              "INSERT INTO donor_medical_history (Donor_ID, MedicalHistory) VALUES (?,?)",
+              [donorId, MedicalHistory],
+              (err, result) => {
+                if (err) {
+                  console.error(err);
+                  res.send("Error");
+                } else {
+                  res.send("Donor added successfully");
                 }
-              );
-            }
+              }
+            );
           }
-        );
+        });
       }
     }
   );
@@ -226,7 +209,7 @@ app.use("/add_donor", (req, res) => {
 
 app.use("/delete_donor", (req, res) => {
   const { id } = req.body;
-  db.query("DELETE FROM donor WHERE Donor_ID = ?", [id], (err, result) => {
+  db.query("DELETE FROM donors WHERE Donor_ID = ?", [id], (err, result) => {
     if (err) {
       send(err);
     } else {
@@ -299,7 +282,7 @@ app.use("/edit_donor", (req, res) => {
   }
   values.push(id);
   db.query(
-    `UPDATE donor SET ${fields.join(", ")} WHERE Donor_ID = ?`,
+    `UPDATE donors SET ${fields.join(", ")} WHERE Donor_ID = ?`,
     values,
     (err, result) => {
       if (err) {
@@ -379,7 +362,7 @@ app.use("/edit_recipient", (req, res) => {
 app.use("/search_donor", (req, res) => {
   const { id } = req.body;
   db.query(
-    "SELECT * FROM donor d, donor_medical_history dmh WHERE d.Donor_ID = dmh.Donor_ID AND d.Donor_ID = ?",
+    "SELECT * FROM donors d, donor_medical_history dmh WHERE d.Donor_ID = dmh.Donor_ID AND d.Donor_ID = ?",
     [id],
     (err, result) => {
       if (err) {
@@ -388,7 +371,7 @@ app.use("/search_donor", (req, res) => {
       } else {
         if (result.length === 0) {
           db.query(
-            "SELECT * FROM donor WHERE Donor_ID = ?",
+            "SELECT * FROM donors WHERE Donor_ID = ?",
             [id],
             (err, result) => {
               if (err) {
@@ -528,7 +511,7 @@ app.use("/donor_donation", (req, res) => {
           console.log(donation_id);
 
           db.query(
-            "SELECT Donation_count FROM donor WHERE Donor_ID = ?",
+            "SELECT Donation_count FROM donors WHERE Donor_ID = ?",
             [id],
             (err, result) => {
               if (err) {
@@ -541,7 +524,7 @@ app.use("/donor_donation", (req, res) => {
                 }
 
                 db.query(
-                  "UPDATE donor SET Donation_count = ?, Donation_date = ?, incident = ? WHERE Donor_ID = ?",
+                  "UPDATE donors SET Donation_count = ?, Donation_date = ?, incident = ? WHERE Donor_ID = ?",
                   [donation_count, donation_date, incident, id],
                   (err, result) => {
                     if (err) {
