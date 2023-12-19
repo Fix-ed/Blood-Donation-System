@@ -1,15 +1,17 @@
 -- @block 
+DROP DATABASE BloodDonationSystem;
+-- @block
 create database BloodDonationSystem;
 USE BloodDonationSystem;
 -- @block
 CREATE TABLE admin (
     Admin_ID INT PRIMARY KEY AUTO_INCREMENT,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
-    Email VARCHAR(255) UNIQUE NOT NULL,
-    Password VARCHAR(255) NOT NULL
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
-CREATE TABLE donors (
+CREATE TABLE donor (
     Donor_ID INT PRIMARY KEY AUTO_INCREMENT,
     fname VARCHAR(255),
     lname VARCHAR(255),
@@ -24,15 +26,15 @@ CREATE TABLE donors (
     donation_date DATE,
     incident TEXT
 );
-CREATE TABLE recipients (
+CREATE TABLE recipient (
     Recipient_ID INT PRIMARY KEY AUTO_INCREMENT,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
-    Address TEXT,
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    address TEXT,
     mass DECIMAL(5, 2),
     bdate DATE,
-    Email VARCHAR(255) UNIQUE NOT NULL,
-    Password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
     blood_type VARCHAR(5),
     amount_of_blood INT,
     price DECIMAL(10, 2),
@@ -41,10 +43,10 @@ CREATE TABLE recipients (
 CREATE TABLE donor_medical_history (
     Donor_ID INT,
     MedicalHistory TEXT,
-    FOREIGN KEY (Donor_ID) REFERENCES donors(Donor_ID)
+    FOREIGN KEY (Donor_ID) REFERENCES donor(Donor_ID)
 );
 CREATE TABLE blood_collection_drive (
-    Drive_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Drive_ID INT PRIMARY KEY,
     Drive_date DATE
 );
 CREATE TABLE location_collection_drive (
@@ -53,7 +55,7 @@ CREATE TABLE location_collection_drive (
     FOREIGN KEY (Drive_ID) REFERENCES blood_collection_drive(Drive_ID)
 );
 CREATE TABLE blood (
-    Donation_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Donation_ID INT PRIMARY KEY,
     blood_type VARCHAR(5),
     expiry_date DATE,
     quantity INT,
@@ -63,22 +65,22 @@ CREATE TABLE blood (
 CREATE VIEW donor_info AS
 SELECT d.*,
     dmh.MedicalHistory
-FROM donors d
+FROM donor d
     LEFT JOIN donor_medical_history dmh ON d.Donor_ID = dmh.Donor_ID;
 -- @block
 CREATE TABLE recipient_medical_history (
     Recipient_ID INT,
     MedicalHistory TEXT,
-    FOREIGN KEY (Recipient_ID) REFERENCES recipients(Recipient_ID)
+    FOREIGN KEY (Recipient_ID) REFERENCES recipient(Recipient_ID)
 );
 CREATE VIEW recipient_info AS
 SELECT r.*,
     rmh.MedicalHistory
-FROM recipients r
+FROM recipient r
     LEFT JOIN recipient_medical_history rmh ON r.Recipient_ID = rmh.Recipient_ID;
 -- @block
 -- Inserting admins
-INSERT INTO admin (FirstName, LastName, Email, Password)
+INSERT INTO admin (fname, lname, email, password)
 VALUES ('John', 'Doe', 'john.doe@email.com', 'pass123'),
     (
         'Jane',
@@ -87,7 +89,7 @@ VALUES ('John', 'Doe', 'john.doe@email.com', 'pass123'),
         'pass456'
     );
 -- Inserting donors
-INSERT INTO donors (
+INSERT INTO donor (
         fname,
         lname,
         address,
@@ -130,14 +132,14 @@ VALUES (
         'None'
     );
 -- Inserting recipients
-INSERT INTO recipients (
-        FirstName,
-        LastName,
-        Address,
+INSERT INTO recipient (
+        fname,
+        lname,
+        address,
         mass,
         bdate,
-        Email,
-        Password,
+        email,
+        password,
         blood_type,
         amount_of_blood,
         price,

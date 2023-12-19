@@ -7,19 +7,14 @@ export const Begin_Blood_Drive = () => {
   const [location, setLocation] = useState("");
   const blood_drive = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:3000/start_blood_drive", {
-      date: date,
-    });
+    const res = await axios.post(
+      "http://localhost:3000/start_blood_drive_location",
+      {
+        date: date,
+        location: location,
+      }
+    );
     if (res.status === 200) {
-      alert("Blood Drive Started");
-    } else {
-      alert("Error");
-    }
-
-    const res_2 = await axios.post("http://localhost:3000/start_blood_drive_location", {
-      location: location,
-    });
-    if (res_2.status === 200) {
       alert("Blood Drive Started");
     } else {
       alert("Error");
