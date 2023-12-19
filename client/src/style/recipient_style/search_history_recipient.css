@@ -1,42 +1,66 @@
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Adjust this value according to your needs */
+/* General Styles */
+.title {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.form-add-recipient {
-    width: 80%;
+.container-4 {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.styled-table-recipient {
+/* Table styling */
+.styled-table {
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
+    min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.styled-table-recipient thead tr {
+.styled-table thead tr {
     background-color: #009879;
     color: #ffffff;
     text-align: left;
 }
 
-.styled-table-recipient th,
-.styled-table-recipient td {
+.styled-table th,
+.styled-table td {
     padding: 12px 15px;
 }
 
-.styled-table-recipient tbody tr {
+.styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
-.styled-table-recipient tbody tr:nth-of-type(even) {
+.styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
-.styled-table-recipient tbody tr:last-of-type {
+.styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container-4 {
+        width: 90%;
+    }
+
+    .styled-table {
+        font-size: 0.8em;
+    }
 }

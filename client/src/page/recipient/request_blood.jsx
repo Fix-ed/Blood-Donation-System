@@ -23,11 +23,7 @@ export const Request_Blood = () => {
       <div className="request-blood-container">
         <h1>Request Blood</h1>
         <h2>You need to pay:</h2>
-        <h2>
-          {price !== "0"
-            ? `Price: ${price}$`
-            : "Nothing! :) You already got your blood"}
-        </h2>
+        <h2>{price !== "0" ? `Price: ${price}$` : "0"}</h2>
         {price !== "0" ? (
           <input
             type="submit"

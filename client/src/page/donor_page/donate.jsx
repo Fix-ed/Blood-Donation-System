@@ -41,7 +41,7 @@ export const Donate = () => {
             setDonate(e.target.value);
           }}
         />
-        <label>Was there an incident? If yes, then please type it</label>
+        <label> type any incedint that happen</label>
         <input
           type="text"
           placeholder="Enter incident"

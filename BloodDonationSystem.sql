@@ -171,3 +171,6 @@ VALUES (
         300.00,
         'pending'
     );
+-- @block
+INSERT INTO admin (fname, lname, email, password)
+VALUES ('Omar', 'Alfawaz', 'omar@email.com', '1234');

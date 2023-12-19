@@ -602,7 +602,7 @@ app.use("/recipient_payed", (req, res) => {
   const { recipient_id } = req.body;
   console.log(recipient_id);
   db.query(
-    "UPDATE recipients SET price = 0 WHERE Recipient_ID = ?",
+    "UPDATE recipient SET price = 0 WHERE Recipient_ID = ?",
     [recipient_id],
     (err, result) => {
       if (err) {
@@ -617,7 +617,7 @@ app.use("/recipient_payed", (req, res) => {
 
 app.use("/get_blood_requests", (req, res) => {
   db.query(
-    "SELECT Recipient_ID, blood_type, amount_of_blood FROM recipients WHERE amount_of_blood > 0 AND order_status = 'pending' AND price = 0",
+    "SELECT Recipient_ID, blood_type, amount_of_blood FROM recipient WHERE amount_of_blood > 0 AND order_status = 'pending' AND price = 0",
     (err, result) => {
       if (err) {
         console.log(err);
@@ -652,6 +652,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -715,6 +725,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -778,6 +798,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -841,6 +871,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -904,6 +944,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -967,6 +1017,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -1030,6 +1090,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                       console.log(err);
                       res.send("Error");
                     }
+                    db.query(
+                      "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                      [recipient_id, result[i].Donation_ID],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                          res.send("Error");
+                        }
+                      }
+                    );
                   }
                 );
                 amount = 0;
@@ -1091,6 +1161,16 @@ app.use("/confirm_blood_transfer", (req, res) => {
                     console.log(err);
                     res.send("Error");
                   }
+                  db.query(
+                    "INSERT INTO receives (recipient_id, donation_id) VALUES (?,?)",
+                    [recipient_id, result[i].Donation_ID],
+                    (err, result) => {
+                      if (err) {
+                        console.log(err);
+                        res.send("Error");
+                      }
+                    }
+                  );
                 }
               );
               amount = 0;
@@ -1135,3 +1215,216 @@ app.use("/confirm_blood_transfer", (req, res) => {
     });
   }
 });
+
+app.use("/edit_admin", (req, res) => {
+  const { id, fname, lname, email, password, address, bdate } = req.body;
+  const values = [];
+  const fields = [];
+  if (fname) {
+    values.push(fname);
+    fields.push("fname = ?");
+  }
+  if (lname) {
+    values.push(lname);
+    fields.push("lname = ?");
+  }
+  if (email) {
+    values.push(email);
+    fields.push("email = ?");
+  }
+  if (password) {
+    values.push(password);
+    fields.push("password = ?");
+  }
+  if (address) {
+    values.push(address);
+    fields.push("address = ?");
+  }
+  if (bdate) {
+    values.push(bdate);
+    fields.push("bdate = ?");
+  }
+  values.push(id);
+  db.query(
+    `UPDATE admin SET ${fields.join(", ")} WHERE Admin_ID = ?`,
+    values,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(200);
+      }
+    }
+  );
+});
+
+app.use("/get_donation_stats", (req, res) => {
+  db.query(
+    "SELECT Donor_ID, blood_type FROM donor WHERE Donation_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.use("/get_blood_availabilit", (req, res) => {
+  db.query(
+    "SELECT blood_type, SUM(quantity) AS q FROM blood GROUP BY blood_type",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.use("/get_drive_stats", (req, res) => {
+  db.query(
+    "SELECT Drive_ID, SUM(quantity) AS q FROM blood GROUP BY Drive_ID",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        console.log("check here")
+        console.log(result);
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.use("edit_info_donor", (req, res) => {
+  const { fname, lname, address, bdate, email, password, mass } = req.body;
+  const values = [];
+  const fields = [];
+  if (fname) {
+    values.push(fname);
+    fields.push("fname = ?");
+  }
+  if (lname) {
+    values.push(lname);
+    fields.push("lname = ?");
+  }
+  if (address) {
+    values.push(address);
+    fields.push("address = ?");
+  }
+  if (mass) {
+    values.push(mass);
+    fields.push("mass = ?");
+  }
+  if (bdate) {
+    values.push(bdate);
+    fields.push("bdate = ?");
+  }
+  if (email) {
+    values.push(email);
+    fields.push("email = ?");
+  }
+  if (password) {
+    values.push(password);
+    fields.push("password = ?");
+  }
+  values.push(id);
+  db.query(
+    `UPDATE donor SET ${fields.join(", ")} WHERE Donor_ID = ?`,
+    values,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(200);
+      }
+    }
+  );
+});
+
+app.use("edit_info_recipient", (req, res) => {
+  const { fname, lname, address, bdate, email, password, mass } = req.body;
+  const values = [];
+  const fields = [];
+  if (fname) {
+    values.push(fname);
+    fields.push("fname = ?");
+  }
+  if (lname) {
+    values.push(lname);
+    fields.push("lname = ?");
+  }
+  if (address) {
+    values.push(address);
+    fields.push("address = ?");
+  }
+  if (mass) {
+    values.push(mass);
+    fields.push("mass = ?");
+  }
+  if (bdate) {
+    values.push(bdate);
+    fields.push("bdate = ?");
+  }
+  if (email) {
+    values.push(email);
+    fields.push("email = ?");
+  }
+  if (password) {
+    values.push(password);
+    fields.push("password = ?");
+  }
+  values.push(id);
+  db.query(
+    `UPDATE recipient SET ${fields.join(", ")} WHERE Recipient_ID = ?`,
+    values,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(200);
+      }
+    }
+  );
+});
+
+app.use("/allow_recipient", (req, res) => {
+  const {id} = req.body
+  db.query(
+    "UPDATE recipient SET can_edit = 'TRUE' WHERE Recipient_ID = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(200)
+      }
+    }
+  )
+})
+
+app.use("allow_donor", (req, res) => {
+  const {id} = req.body
+  db.query(
+    "UPDATE donor SET can_edit = 'TRUE' WHERE Donor_ID = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        res.send(200)
+      }
+    }
+  )
+})

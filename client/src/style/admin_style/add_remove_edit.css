@@ -132,3 +132,70 @@ h1 {
 .styled-table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+
+
+/* General Styling */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container, .container-2, .container-3 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* Button Styling */
+.btn-1, .btn-2, .btn-submit-1, .btn-submit-2, .btn-submit-3 {
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-1:hover, .btn-2:hover, .btn-submit-1:hover, .btn-submit-2:hover, .btn-submit-3:hover {
+  background-color: #0056b3;
+}
+
+/* Form Styling */
+.form-add, .form-remove, .form-edit {
+  display: none; /* Hide by default, display as needed */
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+}
+
+.form-field input, .form-field select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .form-field {
+    width: 100%;
+  }
+
+  .container, .container-2 {
+    flex-direction: column;
+  }
+}

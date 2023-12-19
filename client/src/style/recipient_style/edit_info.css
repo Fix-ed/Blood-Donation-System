@@ -1,0 +1,73 @@
+/* General styles */
+.title {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-edit-recipient {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-edit-recipient label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #666;
+}
+
+.form-edit-recipient input[type="text"],
+.form-edit-recipient input[type="date"],
+.form-edit-recipient input[type="email"],
+.form-edit-recipient input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Make sure padding doesn't affect overall width */
+}
+
+.form-edit-recipient .btn-submit-3 {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.form-edit-recipient .btn-submit-3:hover {
+    background-color: #218838;
+}
+
+/* Specific label styles */
+.fname, .lname, .address, .mass, .bdate, .email, .password {
+    /* Additional styles if needed */
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .form-edit-recipient {
+        width: 90%;
+        padding: 10px;
+    }
+}
+
+/* Styles for disabled editing */
+.not-allowed-edit {
+    text-align: center;
+    color: #a00;
+    font-size: 1.5em;
+}
+.btn-submit-3{
+    background-color: aquamarine;
+}
