@@ -7,26 +7,34 @@ export const Begin_Blood_Drive = () => {
   const [location, setLocation] = useState("");
   const blood_drive = async (e) => {
     e.preventDefault();
-    const res = await axios.post(
-      "http://localhost:3000/start_blood_drive_location",
-      {
-        date: date,
-        location: location,
-      }
-    );
-    if (res.status === 200) {
-      alert("Blood Drive Started");
+    const res = await axios.post("http://localhost:3000/start_blood_drive", {
+      date: date,
+    });
+
+    if (res.data === "Not possible") {
+      alert("Blood drive must be 3 months apart");
     } else {
-      alert("Error");
+      alert("Blood Drive Started");
+      const res_2 = await axios.post(
+        "http://localhost:3000/start_blood_drive_location",
+        {
+          location: location,
+        }
+      );
+      if (res_2.status === 200) {
+        alert("Blood Drive Started");
+      } else {
+        alert("Error");
+      }
     }
   };
   return (
     <>
       <NavBar />
-      <h1>Start a Blood Drive</h1>
+      <h1>Initiate Blood Drive</h1>
       <div className="container_blood_drive">
         <form className="blood_drive">
-          <label type="date">Date:</label>
+          <label type="date">Date</label>
           <input
             type="date"
             id="date"
@@ -37,7 +45,7 @@ export const Begin_Blood_Drive = () => {
               setDate(e.target.value);
             }}
           ></input>
-          <label type="location">Location:</label>
+          <label type="location">Location</label>
           <input
             type="text"
             id="location"

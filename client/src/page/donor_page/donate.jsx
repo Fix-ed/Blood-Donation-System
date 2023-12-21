@@ -18,7 +18,11 @@ export const Donate = () => {
       drive_id: Number(drive_id),
     });
     console.log(res);
-    if (res.status === 200) {
+    if (res.data === "NO") {
+      alert("You have already donated within 3 months");
+    } else if (res.data === "history") {
+      alert("Your medical history does not allow you to donate");
+    } else if (res.status === 200) {
       alert("Donation Successful");
     } else {
       alert("Donation Failed");
@@ -41,7 +45,7 @@ export const Donate = () => {
             setDonate(e.target.value);
           }}
         />
-        <label> type any incedint that happen</label>
+        <label>Was there an incident? If yes, then please type it</label>
         <input
           type="text"
           placeholder="Enter incident"

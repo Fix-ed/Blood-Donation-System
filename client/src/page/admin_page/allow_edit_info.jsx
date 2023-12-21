@@ -3,25 +3,29 @@ import { NavBar } from "../../components/nav_bar_admin";
 import "../../style/admin_style/add_remove_edit.css";
 import { useState } from "react";
 import axios from "axios";
-export const Search_History = () => {
+export const Allow_Edit_Info = () => {
   const [id, setID] = useState("");
-  const [result, setResult] = useState("");
   const [op, setOp] = useState("");
 
   const search = async () => {
     if (op === "recipient") {
-      const res = await axios.post("http://localhost:3000/search_recipient", {
+      const res = await axios.post("http://localhost:3000/allow_recipient", {
         id: id,
       });
-      setResult(res.data);
       console.log("result");
+      if (res.status === 200) {
+        alert("Edit Successful");
+      }
     } else if (op === "donor") {
-      const res = await axios.post("http://localhost:3000/search_donor", {
+      const res = await axios.post("http://localhost:3000/allow_donor", {
         id: id,
       });
+
       console.log(res);
-      setResult(res.data);
       console.log("result");
+      if (res.status === 200) {
+        alert("Edit Successful");
+      }
     }
   };
 
@@ -50,7 +54,7 @@ export const Search_History = () => {
   return (
     <>
       <NavBar />
-      <h1>Select whose history you would like to show</h1>
+      <h1>Select whose edits you would like to allow</h1>
       <div className="container-2">
         <button id="recipient" onClick={func_recipient} className="btn-2">
           Recipient
@@ -69,35 +73,10 @@ export const Search_History = () => {
           />
           <input
             type="submit"
-            value="Submit"
+            value="Allow"
             className="btn-submit-3"
             onClick={search}
           ></input>
-        </div>
-      </div>
-      <div className="container-4">
-        <div className="form-add">
-          {/* store the result[0].Recipient_ID and the result[0].MEDICAL_HISTORY in a*/}
-          {result && result[0] && (
-            <table className="styled-table">
-              <thead>
-                <tr>
-                  {Object.keys(result[0]).map((key, index) => (
-                    <th key={index}>{key}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {result.map((row, index) => (
-                  <tr key={index}>
-                    {Object.values(row).map((value, i) => (
-                      <td key={i}>{value}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
         </div>
       </div>
     </>

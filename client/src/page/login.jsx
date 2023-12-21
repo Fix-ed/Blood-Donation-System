@@ -2,50 +2,52 @@ import "../style/login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-
   const login = async (e) => {
     e.preventDefault();
-    setError(false);
+    const res = await axios.post("http://localhost:3000/login", {
+      email,
+      password,
+    });
+    console.log(res.data);
 
-    try {
-      const res = await axios.post("http://localhost:3000/login", {
-        email,
-        password,
-      });
+    // Store user data in local storage
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    localStorage.setItem("role", res.data.role);
+    localStorage.setItem("blood_type", res.data.blood_type);
+    localStorage.setItem("drive_id", res.data.Drive_ID);
+    localStorage.setItem("recipient_id", res.data.recipient_id);
+    localStorage.setItem("amount_blood", res.data.amount_of_blood);
+    localStorage.setItem("can_edit", res.data.can_edit);
+    localStorage.setItem("price", res.data.price);
+    console.log(localStorage.getItem("can_edit"));
 
-      // Handle navigation based on role
-      const navigateToRole = {
-        admin: "/admin",
-        donor: "/donor",
-        recipient: "/recipient",
-      };
-
-      if (res.data.role in navigateToRole) {
-        navigate(navigateToRole[res.data.role]);
-      } else {
-        setError(true);
-      }
-    } catch (err) {
-      setError(true);
+    if (res.data.role === "admin") {
+      navigate("/admin");
+    } else if (res.data.role === "donor") {
+      navigate("/donor");
+    } else if (res.data.role === "recipient") {
+      navigate("/recipient");
+    } else {
+      document.querySelector(".inactive").classList.remove("inactive");
+      document.querySelector(".inactive").classList.add("active");
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="form-login" onSubmit={login}>
-        <h2>Blood Bank System</h2>
-        <div className="input-group">
+    <>
+      <form className="form-login">
+        <h1>Welcome to BloodProject</h1>
+        <div className="form-div">
           <input
-            type="email"
+            type="text"
             value={email}
             placeholder="Email"
             required
+            className="email-input"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
@@ -53,18 +55,15 @@ export const Login = () => {
             value={password}
             placeholder="Password"
             required
+            className="email-input"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="btn">
+          <button type="submit" name="login" onClick={login} className="btn">
             Login
           </button>
-          {error && (
-            <label className="error-msg">
-              Email or password are not correct!
-            </label>
-          )}
+          <label className="inactive">Email or password are not correct!</label>
         </div>
       </form>
-    </div>
+    </>
   );
 };

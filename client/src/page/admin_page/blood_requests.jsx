@@ -38,7 +38,11 @@ export const Blood_Requests = () => {
           amount_of_blood: amount_of_blood[recipient_id.indexOf(id)],
         }
       );
-      if (res.status === 200) {
+      console.log(res.data);
+      console.log(res.data === "Not enough blood available");
+      if (res.data === "Not enough blood available") {
+        alert("Not enough blood available!");
+      } else if (res.status === 200) {
         alert("Blood transfer confirmed!");
       }
     } catch (error) {

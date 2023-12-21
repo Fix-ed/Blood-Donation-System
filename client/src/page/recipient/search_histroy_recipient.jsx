@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavBarRecipient } from "../../components/nav_bar_recipient.jsx";
 import "../../style/admin_style/add_remove_edit.css";
-
 export const Search_History_Recipient = () => {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     const search_recipient = async () => {
@@ -12,6 +11,7 @@ export const Search_History_Recipient = () => {
         id: localStorage.getItem("recipient_id"),
       });
       setResult(res.data);
+      console.log(res.data);
     };
 
     search_recipient();
@@ -20,14 +20,14 @@ export const Search_History_Recipient = () => {
   return (
     <>
       <NavBarRecipient />
+      <h1 className="title">History</h1>
       <div className="container-4">
-        <h1 className="title">Recipient History</h1>
-        {result.length > 0 ? (
+        {result && result[0] && (
           <table className="styled-table">
             <thead>
               <tr>
                 {Object.keys(result[0]).map((key, index) => (
-                  <th key={index}>{key.replace(/_/g, " ").toUpperCase()}</th>
+                  <th key={index}>{key}</th>
                 ))}
               </tr>
             </thead>
@@ -41,8 +41,6 @@ export const Search_History_Recipient = () => {
               ))}
             </tbody>
           </table>
-        ) : (
-          <p>No history records found.</p>
         )}
       </div>
     </>

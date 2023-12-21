@@ -22,13 +22,13 @@ export const Add_Remove_Edit = () => {
     setOp("add");
     if (
       document.querySelector("#remove").style.backgroundColor === "red" ||
-      document.querySelector("#edit").style.backgroundColor === "orange"
+      document.querySelector("#edit").style.backgroundColor === "red"
     ) {
       document.querySelector("#remove").style.backgroundColor = "black";
       document.querySelector("#edit").style.backgroundColor = "black";
-      document.querySelector("#add").style.backgroundColor = "green";
+      document.querySelector("#add").style.backgroundColor = "red";
     } else {
-      document.querySelector("#add").style.backgroundColor = "green";
+      document.querySelector("#add").style.backgroundColor = "red";
     }
     if (op !== "" && type !== "") {
       complete_func(op, type);
@@ -38,8 +38,8 @@ export const Add_Remove_Edit = () => {
   const func_remove = () => {
     setOp("remove");
     if (
-      document.querySelector("#add").style.backgroundColor === "green" ||
-      document.querySelector("#edit").style.backgroundColor === "orange"
+      document.querySelector("#add").style.backgroundColor === "red" ||
+      document.querySelector("#edit").style.backgroundColor === "red"
     ) {
       document.querySelector("#add").style.backgroundColor = "black";
       document.querySelector("#edit").style.backgroundColor = "black";
@@ -55,14 +55,14 @@ export const Add_Remove_Edit = () => {
   const func_edit = () => {
     setOp("edit");
     if (
-      document.querySelector("#add").style.backgroundColor === "green" ||
+      document.querySelector("#add").style.backgroundColor === "red" ||
       document.querySelector("#remove").style.backgroundColor === "red"
     ) {
       document.querySelector("#add").style.backgroundColor = "black";
       document.querySelector("#remove").style.backgroundColor = "black";
-      document.querySelector("#edit").style.backgroundColor = "orange";
+      document.querySelector("#edit").style.backgroundColor = "red";
     } else {
-      document.querySelector("#edit").style.backgroundColor = "orange";
+      document.querySelector("#edit").style.backgroundColor = "red";
     }
     if (op !== "" && type !== "") {
       complete_func(op, type);
@@ -84,12 +84,6 @@ export const Add_Remove_Edit = () => {
   };
 
   const func_donor = () => {
-    if (op == "" && type == "") {
-      document.querySelector(".form-add").style.display = "none";
-      document.querySelector(".form-remove").style.display = "none";
-      document.querySelector(".form-edit").style.display = "none";
-      document.querySelector(".btn-submit-1").style.display = "none";
-    }
     setType("donor");
     if (document.querySelector("#recipient").style.backgroundColor === "red") {
       document.querySelector("#recipient").style.backgroundColor = "black";
@@ -159,22 +153,26 @@ export const Add_Remove_Edit = () => {
         alert("Error");
       }
     } else if (op === "add" && type === "donor") {
-      const res = await axios.post("http://localhost:3000/add_donor", {
-        fname: fname,
-        lname: lname,
-        address: address,
-        mass: Number(mass),
-        driveID: Number(driveID),
-        bdate: bdate,
-        email: email,
-        password: password,
-        blood_type: blood_type,
-        MedicalHistory: MedicalHistory,
-      });
-      if (res.status === 200) {
-        alert("Values Inserted");
+      if (mass < 50) {
+        alert("weight is too low");
       } else {
-        alert("Error");
+        const res = await axios.post("http://localhost:3000/add_donor", {
+          fname: fname,
+          lname: lname,
+          address: address,
+          mass: Number(mass),
+          driveID: Number(driveID),
+          bdate: bdate,
+          email: email,
+          password: password,
+          blood_type: blood_type,
+          MedicalHistory: MedicalHistory,
+        });
+        if (res.status === 200) {
+          alert("Values Inserted");
+        } else {
+          alert("Error");
+        }
       }
     }
   };
@@ -245,7 +243,7 @@ export const Add_Remove_Edit = () => {
   return (
     <>
       <NavBar />
-      <h1>Choose an operation</h1>
+      <h1>What would you like to do?</h1>
       <div className="container">
         <button id="add" onClick={func_add} className="btn-1">
           Add
@@ -257,7 +255,6 @@ export const Add_Remove_Edit = () => {
           Edit
         </button>
       </div>
-      <h1>Choose a type of person</h1>
       <div className="container-2">
         <button id="recipient" onClick={func_recipient} className="btn-2">
           Recipient
@@ -298,7 +295,7 @@ export const Add_Remove_Edit = () => {
             onChange={(e) => setAddress(e.target.value)}
           ></input>
 
-          <label className="mass">Weight:</label>
+          <label className="mass">mass</label>
           <input
             type="text"
             id="mass"

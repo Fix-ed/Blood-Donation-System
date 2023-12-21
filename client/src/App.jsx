@@ -13,6 +13,7 @@ import { Recipient } from "./page/recipient/recipient.jsx";
 import { Search_History_Recipient } from "./page/recipient/search_histroy_recipient.jsx";
 import { Request_Blood } from "./page/recipient/request_blood.jsx";
 import { Confirm_Request } from "./page/recipient/confim_request.jsx";
+import { Allow_Edit_Info } from "./page/admin_page/allow_edit_info.jsx";
 function App() {
   return (
     <>
@@ -47,6 +48,7 @@ function App() {
             path="/recipient/confirm_request"
             element={<Confirm_Request />}
           />
+          <Route path="/admin/edit_info" element={<Allow_Edit_Info />} />
         </Routes>
       </Router>
     </>
